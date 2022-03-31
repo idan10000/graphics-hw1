@@ -93,6 +93,10 @@ def reduce_image(image, mask_mat, out_height, out_width):
 def calc_seam(M, indices, min_paths, mask_mat, W_copy, I_gs, color):
     j = np.argmin(M[-1])
     mask_mat[-1, j] = False
+
+    W_copy[-1, j] = color
+    I_gs[-1, j:-1] = I_gs[-1, j + 1:]
+    indices[-1, j:-1] = indices[-1, j + 1:]
     for i in reversed(range(1, M.shape[0])):
         row, col = i - 1, indices[i - 1, j - 1 + min_paths[i, j]]
         mask_mat[row, col] = False
